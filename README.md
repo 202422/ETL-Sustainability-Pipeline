@@ -74,3 +74,26 @@ This task processes a weather dataset (`weather_data_cleaned.csv`, 8,928 entries
    - Final DataFrame (`df_normalized`): 1,488 entries, 12 columns (`float64`: 7, `category`: 3, `object`: 1, `int32`: 1).
 
 ## Data Loading
+
+I developed a Python script that loads weather data from `weather_data_transformed.csv` into a SQLite database (`weather_database.db`). It:
+
+### 1. **Imports Data**
+- Reads the CSV into a Pandas DataFrame.
+
+### 2. **Preprocesses Data**
+Converts:  
+- `time_of_day` and `location` to categories
+- `weather_code` to string
+- `date` to `datetime.date`
+- `is_raining` to `int32`.
+### 3. **Sets Up Database**
+- Connects to SQLite
+- Creates `Locations` (with `location_id`, `latitude`, `longitude`, `location`) table
+- Creates `Weather_Observations` (with weather metrics and foreign key `location_id`) table   
+
+### 4. **Inserts Data**
+- Uses SQLAlchemy to insert unique locations into `Locations`
+- Maps `location_id` to the DataFrame, and inserts weather data into `Weather_Observations`
+    
+### 5. **Verifies** 
+- Prints the first five rows of both tables
