@@ -24,3 +24,15 @@ The script collected 12,000 records (7392 non-null for weather variables) and sa
 
 ## Data Cleaning
 
+In this Notebook `Cleaning_Task.ipynb` in Transform folder, I cleaned, the extracted dataset.
+
+### 1. Initial Dataset
+Pandas DataFrame with 12,000 entries and 8 columns: `time` (object), `temperature_2m`, `relative_humidity_2m`, `precipitation`, `wind_speed_10m`, `weather_code` (float64), `latitude`, `longitude`. Columns except `time`, `latitude`, `longitude` had 7,392 non-null entries, with missing values from March 14, 2025, 23:00:00 to January 24, 2025, 00:00:00.
+
+### 2. Cleaning Steps
+- **Data Types**: Converted `time` to `datetime64[ns]` and `weather_code` to category.
+- **Sorting**: Sorted by `time` (descending), reset index.
+- **Missing Values**: Kept first third of rows with missing values (~1,536), dropped others, yielding 8,928 rows.
+- **Location Split**: Divided into four DataFrames by unique `latitude` and `longitude`.
+- **Imputation**: Used SVR (linear kernel, 72-step sequences) for numerical columns (`temperature_2m`, `relative_humidity_2m`, `precipitation`, `wind_speed_10m`). Imputed `weather_code` with mode.
+- **Final Dataset**: Concatenated to 8,928 entries, no missing values, no duplicates.
