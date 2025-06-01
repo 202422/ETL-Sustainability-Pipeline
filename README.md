@@ -97,3 +97,10 @@ Converts:
     
 ### 5. **Verifies** 
 - Prints the first five rows of both tables
+
+
+## Challenges Encountered  
+### 1.	Finding a Suitable API
+A significant challenge was identifying a reliable and accessible API for environmental metrics, such as weather data, air quality, or sustainability indexes. Several APIs were explored, including the European Environment Agency (EEA), World Air Quality Index, OpenAQ, and Copernicus Atmosphere Monitoring Service. However, these APIs either lacked comprehensive historical weather data, had restrictive access, or were not suitable for the required metrics. Ultimately, the Open Meteo API was selected for its free access, comprehensive weather variables, and reliable historical data, though it required careful handling of rate limits and chunked requests.
+### 2.	Model Training Time for Imputation  
+The SVR models used for imputing missing numerical values were computationally intensive. Training these models on temporal sequences (72-hour windows) for multiple columns across four locations was time-consuming, especially for large datasets. To mitigate this, the pipeline was optimized to train models only on non-missing data and to process each location independently, though this still required significant computational resources.
