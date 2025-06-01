@@ -36,3 +36,41 @@ Pandas DataFrame with 12,000 entries and 8 columns: `time` (object), `temperatur
 - **Location Split**: Divided into four DataFrames by unique `latitude` and `longitude`.
 - **Imputation**: Used SVR (linear kernel, 72-step sequences) for numerical columns (`temperature_2m`, `relative_humidity_2m`, `precipitation`, `wind_speed_10m`). Imputed `weather_code` with mode.
 - **Final Dataset**: Concatenated to 8,928 entries, no missing values, no duplicates.
+
+
+## Data Transformation
+
+This task processes a weather dataset (`weather_data_cleaned.csv`, 8,928 entries, 8 columns) through formatting, enrichment, aggregation, feature engineering, and normalization:
+
+### 1. **Data Import and Type Conversion**
+   - Load dataset into a pandas DataFrame.
+   - Convert `time` to `datetime64[ns]` and `weather_code` to `category`.
+
+### 2. **Location Enrichment**
+   - Extract unique `latitude` and `longitude` pairs.
+   - Perform reverse geocoding to obtain location names.
+   - Create `location_df` with `latitude`, `longitude`, and `location`.
+   - Merge with original DataFrame, setting `time`, `weather_code`, and `location` to appropriate types.
+
+### 3. **Time-Based Aggregation**
+   - Define `transform` function:
+     - Bin `time` into `time_of_day` categories: `Night` (0–6), `Morning` (6–12), `Afternoon` (12–18), `Evening` (18–24).
+     - Extract `date` from `time`.
+     - Group by `latitude`, `longitude`, `date`, `time_of_day`:
+       - Mean: `temperature_2m`, `relative_humidity_2m`, `precipitation`, `wind_speed_10m`.
+       - Mode: `weather_code`.
+       - First: `location`.
+     - Set `time_of_day`, `weather_code`, and `location` as `category`.
+   - Output: `df_Timerid: df_TimeOfDay (1,488 entries, 10 columns).
+
+### 4. **Feature Engineering**
+   - Add `heat_index`: If `temperature_2m` ≥ 20°C, compute as `temperature_2m + 0.33 * relative_humidity_2m - 0.7`; else, use `temperature_2m`.
+   - Add `is_raining`: 1 if `precipitation` > 0, else 0 (`int32`).
+
+### 5. **Normalization**
+   - Standardize `temperature_2m`, `relative_humidity_2m`, `precipitation`, `wind_speed_10m`, `heat_index` using `StandardScaler`.
+
+### 6. **Output**
+   - Final DataFrame (`df_normalized`): 1,488 entries, 12 columns (`float64`: 7, `category`: 3, `object`: 1, `int32`: 1).
+
+## Data Loading
