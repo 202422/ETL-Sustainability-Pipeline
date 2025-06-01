@@ -74,3 +74,33 @@ This task processes a weather dataset (`weather_data_cleaned.csv`, 8,928 entries
    - Final DataFrame (`df_normalized`): 1,488 entries, 12 columns (`float64`: 7, `category`: 3, `object`: 1, `int32`: 1).
 
 ## Data Loading
+
+I developed a Python script that loads weather data from `weather_data_transformed.csv` into a SQLite database (`weather_database.db`). It:
+
+### 1. **Imports Data**
+- Reads the CSV into a Pandas DataFrame.
+
+### 2. **Preprocesses Data**
+Converts:  
+- `time_of_day` and `location` to categories
+- `weather_code` to string
+- `date` to `datetime.date`
+- `is_raining` to `int32`.
+### 3. **Sets Up Database**
+- Connects to SQLite
+- Creates `Locations` (with `location_id`, `latitude`, `longitude`, `location`) table
+- Creates `Weather_Observations` (with weather metrics and foreign key `location_id`) table   
+
+### 4. **Inserts Data**
+- Uses SQLAlchemy to insert unique locations into `Locations`
+- Maps `location_id` to the DataFrame, and inserts weather data into `Weather_Observations`
+    
+### 5. **Verifies** 
+- Prints the first five rows of both tables
+
+
+## Challenges Encountered  
+### 1.	Finding a Suitable API
+A significant challenge was identifying a reliable and accessible API for environmental metrics, such as weather data, air quality, or sustainability indexes. Several APIs were explored, including the European Environment Agency (EEA), World Air Quality Index, OpenAQ, and Copernicus Atmosphere Monitoring Service. However, these APIs either lacked comprehensive historical weather data, had restrictive access, or were not suitable for the required metrics. Ultimately, the Open Meteo API was selected for its free access, comprehensive weather variables, and reliable historical data, though it required careful handling of rate limits and chunked requests.
+### 2.	Model Training Time for Imputation  
+The SVR models used for imputing missing numerical values were computationally intensive. Training these models on temporal sequences (72-hour windows) for multiple columns across four locations was time-consuming, especially for large datasets. To mitigate this, the pipeline was optimized to train models only on non-missing data and to process each location independently, though this still required significant computational resources.
