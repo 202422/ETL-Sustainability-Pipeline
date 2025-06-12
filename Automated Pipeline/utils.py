@@ -223,14 +223,7 @@ def Extract_main():
     # Run the pipeline
     df_meteo = collect_weather_data(LOCATIONS, NEEDED_HOURS)
     if not df_meteo.empty:
-        save_to_csv(df_meteo, "C:\Users\HP\Projet_Data_Science\ETL-Sustainability-Pipeline\Extract\weather_data_extracted.csv")
-
-
-# In[ ]:
-
-
-if __name__ == "__main__":
-    Extract_main()
+        save_to_csv(df_meteo, "C:\\Users\\HP\\Projet_Data_Science\\ETL-Sustainability-Pipeline\\Automated Pipeline\\weather_data_extracted.csv")
 
 
 # # Cleaning
@@ -421,17 +414,10 @@ def clean_weather_data(input_file: str, output_file: str) -> pd.DataFrame:
 # Entry point for the cleaning pipeline
 def Cleaning_main():
     """Run the weather data cleaning pipeline."""
-    INPUT_FILE = "C:\Users\HP\Projet_Data_Science\ETL-Sustainability-Pipeline\Extract\weather_data_extracted.csv"
-    OUTPUT_FILE = "C:\Users\HP\Projet_Data_Science\ETL-Sustainability-Pipeline\Transform\weather_data_cleaned.csv"
+    INPUT_FILE = "C:\\Users\\HP\\Projet_Data_Science\\ETL-Sustainability-Pipeline\\Automated Pipeline\\weather_data_extracted.csv"
+    OUTPUT_FILE = "C:\\Users\\HP\\Projet_Data_Science\\ETL-Sustainability-Pipeline\\Automated Pipeline\\weather_data_cleaned.csv"
     
     clean_weather_data(INPUT_FILE, OUTPUT_FILE)
-
-
-# In[ ]:
-
-
-if __name__ == "__main__":
-    Cleaning_main()
 
 
 # # Transforming
@@ -613,8 +599,8 @@ def transform_weather_data(input_file: str, output_file: str) -> pd.DataFrame:
 # Entry point for the transformation pipeline
 def transform_main():
     """Run the weather data transformation pipeline."""
-    INPUT_FILE = "C:\Users\HP\Projet_Data_Science\ETL-Sustainability-Pipeline\Transform\weather_data_cleaned.csv"
-    OUTPUT_FILE = "C:\Users\HP\Projet_Data_Science\ETL-Sustainability-Pipeline\Transform\weather_data_transformed.csv"
+    INPUT_FILE = "C:\\Users\\HP\\Projet_Data_Science\\ETL-Sustainability-Pipeline\\Automated Pipeline\\weather_data_cleaned.csv"
+    OUTPUT_FILE = "C:\\Users\\HP\\Projet_Data_Science\\ETL-Sustainability-Pipeline\\Automated Pipeline\\weather_data_transformed.csv"
     
     transform_weather_data(INPUT_FILE, OUTPUT_FILE)
 
@@ -782,8 +768,8 @@ def manage_weather_database(csv_path, db_name, limit=5):
 def Load_main():
     """Load the weather data into SQLite database"""
     
-    csv_path = "C:\Users\HP\Projet_Data_Science\ETL-Sustainability-Pipeline\Transform\weather_data_transformed.csv"
-    db_name = "C:\Users\HP\Projet_Data_Science\ETL-Sustainability-Pipeline\Load\weather_database.db"
+    csv_path = "C:\\Users\\HP\\Projet_Data_Science\\ETL-Sustainability-Pipeline\\Automated Pipeline\\weather_data_transformed.csv"
+    db_name = "C:\\Users\\HP\\Projet_Data_Science\\ETL-Sustainability-Pipeline\\Automated Pipeline\\weather_database.db"
     
 
     manage_weather_database(csv_path, db_name, limit=5)
