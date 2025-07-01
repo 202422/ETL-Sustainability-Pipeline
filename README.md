@@ -5,6 +5,14 @@
 This project implements a complete ETL (Extract, Transform, Load) pipeline. The goal is to acquire air quality and sustainability-related data from an open API, clean and transform the data, load the final dataset into a datawarehouse (SQLite) and create a pipeline using DAG Airflow
 
 
+## Automated Pipeline using Dag Airflow
+
+![](RepoAssets/DagLog.png)
+
+![](RepoAssets/Dag_Graph.png)
+
+
+
 ## Data Acquisition
 
 I developed a Python script `ExtractTask_ETL.ipynb` in Extract folder to fetch hourly weather data from the Open-Meteo API (https://api.open-meteo.com/v1/forecast) for sustainability analysis, including temperature, humidity, precipitation, wind speed, and weather codes.
